@@ -7,18 +7,18 @@
       class="d-flex flex-column align-items-center ">
       <div class="d-flex flex-column mb-4">
         <label class="fw-bold" for="account-name">Account name: </label>
-        <input id="account-name" type="text" placeholder="Livret A..." name="name" class="input">
+        <input id="account-name" v-model="accountName" type="text" placeholder="Livret A..." name="name" class="input">
       </div>
       <div class="d-flex flex-column mb-4">
         <label class="fw-bold" for="initial-amount">Initial amount: </label>
         <span class="fw-bold">
-          <input id="initial-amount" type="text" placeholder="1 800..." name="initial" class="input">€
+          <input id="initial-amount" v-model="initialAmount" @input="amountStyle" type="text" placeholder="1 800..." name="initial" class="input">€
         </span>
       </div>
       <div class="d-flex flex-column mb-4">
         <label class="fw-bold" for="rate">Rate: </label>
         <span class="fw-bold">
-          <input id="rate" type="text" placeholder="2%..." name="rate" class="input">%
+          <input id="rate" v-model="accountRate" type="text" placeholder="2%..." name="rate" class="input">%
         </span>
       </div>
       <button id="submission-button" class="btn my-5 py-2 px-4" type="submit">
@@ -29,42 +29,56 @@
 </template>
 
 <script>
-  import forecasts from "@/views/Forecasts.vue";
   import router from "@/router";
+
+
 
   export default {
     name: 'FinancialInfo',
+    data() {
+      return {
+        accountName: '',
+        initialAmount: '',
+        accountRate: '',
+      }
+    },
     methods: {
-      amountStyle(amount) {
+      amountStyle(event) {
+        const amount = event.target.value
         const numberCheck = amount.split(" ").join("");
-        if (!isNaN(numberCheck)) {
+        if (isNaN(numberCheck)) {
           // send an error message
+          alert("Please enter a valid number in the initial amount field.");
         } else {
-          let result = amount;
+          let result = numberCheck;
           const amountSplit = amount.split("");
           if (amountSplit.length > 3) {
-            const numbers = amountSplit.length;
-            const numberModulo = numbers % 3;
-            for (let i = numberModulo; i > 0; i--) {
-              result += amountSplit[numbers - 1];
+            const resultArray = [];
+            const modulo = amountSplit.length % 3;
+            for (let i = 0; i < modulo; i++) {
+              resultArray.push(amountSplit[i]);
             }
-            for (let i = numbers - numberModulo; i < amountSplit.length; i++) {
+            resultArray.push(" ");
+            let spaceIndex = 0;
+            for (let i = modulo; i < amountSplit.length; i++) {
+              spaceIndex++;
+              if (spaceIndex % 3 === 0) {
+                resultArray.push(amountSplit[i]);
+                resultArray.push(" ");
+              } else {
+                resultArray.push(amountSplit[i]);
+              }
             }
+            result = resultArray.join("").trim();
+            this.initialAmount = result;
+
           }
         }
-
-        return result;
       },
       handleSubmit() {
         router.push({path: 'forecasts'})
       }
     },
-    mounted() {
-      const initialAmount = document.getElementById('initial-amount');
-      initialAmount.addEventListener("input", (event) => {
-        this.amountStyle(event.target.value);
-      })
-    }
   }
 </script>
 
