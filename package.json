@@ -2,14 +2,22 @@
   "name": "investiz",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
+    "dev": "nodemon src/main.js",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.45.1",
+    "bootstrap": "^5.3.3",
+    "bootstrap-vue": "^2.23.1",
     "core-js": "^3.8.3",
-    "vue": "^3.2.13"
+    "nodemon": "^3.1.4",
+    "supabase": "1.187.10",
+    "vue": "^3.4.37",
+    "vue-router": "^4.4.3"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

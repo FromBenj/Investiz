@@ -1,4 +1,5 @@
 # investiz
+**Small Vue 3 project to learn Vue.js and show you how much money your will earn from your saving accounts next year, in the next 5 years and in the next 10 years.**
 
 ## Project setup
 ```
