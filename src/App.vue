@@ -12,8 +12,18 @@
   :root {
     --main-blue: #003a57;
     --main-cream: floralwhite;
+    --main-green: #118570;
   }
   body {
     background-color: var(--main-cream) !important;
+  }
+  .main-blue{
+    color: var(--main-blue);
+  }
+  .main-cream {
+    color: var(--main-cream);
+  }
+  .main-green {
+    color: var(--main-green);
   }
 </style>

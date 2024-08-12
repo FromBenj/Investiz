@@ -1,35 +1,46 @@
 <template>
   <div class="container">
-    <h1 class="text-center">Financial Information</h1>
+    <h1 class=" main-green text-center mb-5">Financial Information</h1>
+    <h2 class="financial-info-main-title">New account</h2>
     <form id="app"
           @submit.prevent="handleSubmit"
           method="post"
-          class="d-flex flex-column align-items-center ">
+          class="mt-4 d-flex flex-column align-items-center ">
       <div class="d-flex flex-column mb-4">
         <label class="fw-bold" for="account-name">Account name: </label>
-        <input id="account-name" v-model="accountName" type="text" placeholder="Livret A..." name="name" class="input">
+        <input id="account-name" v-model="accountName" type="text" placeholder="Livret A..." name="accountName" class="input">
       </div>
       <div class="d-flex flex-column mb-4">
         <label class="fw-bold" for="initial-amount">Initial amount: </label>
         <span class="fw-bold">
-          <input id="initial-amount" v-model="initialAmount" @input="amountStyle" type="text" placeholder="1 800..." name="initial" class="input">€
+          <input id="initial-amount" v-model="initialAmount" @input="amountStyle" type="text" placeholder="1 800..." name="initialAmount" class="input">€
         </span>
       </div>
       <div class="d-flex flex-column mb-4">
         <label class="fw-bold" for="rate">Rate: </label>
         <span class="fw-bold">
-          <input id="rate" v-model="accountRate" type="text" placeholder="2%..." name="rate" class="input">%
+          <input id="rate" v-model="accountRate" type="text" placeholder="2..." name="accountRate" class="input">%
         </span>
       </div>
-      <button id="submission-button" class="btn my-5 py-2 px-4" type="submit">
+      <div class="d-flex flex-column mb-4">
+        <label class="fw-bold" for="monthly-savings">Monthly savings: </label>
+        <span class="fw-bold">
+          <input id="monthly-savings" v-model="monthlySavings" @input="amountStyle" type="text" placeholder="300..." name="monthlySavings" class="input">€
+        </span>
+      </div>
+      <button id="submission-button" class="btn my-5 py-2 px-4">
         Done
       </button>
     </form>
   </div>
+  <div>
+    <h2 class="financial-info-main-title">All Accounts</h2>
+  </div>
 </template>
 
 <script>
-  import router from "@/router";
+  //import router from "@/router";
+  import {supabase} from "../../supabase.js";
 
   export default {
     name: 'FinancialInfo',
@@ -38,6 +49,17 @@
         accountName: '',
         initialAmount: '',
         accountRate: '',
+        monthlySavings: '',
+      }
+    },
+    computed: {
+      accountData() {
+        return {
+          name: this.accountName,
+          amount: this.initialAmount,
+          rate: this.accountRate,
+          m_savings: this.monthlySavings
+        }
       }
     },
     methods: {
@@ -68,19 +90,73 @@
               }
             }
             result = resultArray.join("").trim();
-            this.initialAmount = result;
-
+            this[event.target.name] = result;
           }
         }
       },
-      handleSubmit() {
-        router.push({path: 'forecasts'})
+      valuesTypeManagement() {
+        this.initialAmount = parseInt(this.initialAmount.replace(/\s+/g, ''));
+        this.accountRate = parseFloat(this.accountRate.replace(/\s+/g, ''));
+        this.monthlySavings = parseInt(this.monthlySavings.replace(/\s+/g, ''));
+      },
+      async accountsManagement() {
+        try {
+          const data = this.accountData;
+          const {error} = await supabase
+              .from('account')
+              .insert(data);
+          if (error) {
+            console.error('Error:', error);
+            return null;
+          }
+          return data;
+        } catch (error) {
+          console.error('Unexpected error:', error);
+          return null;
+        }
+      },
+      async allAccounts() {
+        try {
+          const { data, error } = await supabase
+              .from('account')
+              .select('*');
+          if (error) {
+            console.error('Error fetching data:', error);
+          } else {
+            console.log(data);
+          }
+        } catch (error) {
+          console.error('Unexpected error:', error);
+        }
+      },
+      backToInitialData() {
+        this.accountName = '';
+        this.initialAmount = '';
+        this.accountRate = '';
+        this.monthlySavings = '';
+      },
+      handleSubmit(event) {
+        // if the form is valid
+        this.valuesTypeManagement();
+        this.accountsManagement();
+        this.backToInitialData();
+        //router.push({path: 'forecasts'})
+        // if the form is not valid
+        event. preventDefault()
       }
     },
+    mounted() {
+      this.allAccounts();
+    }
   }
 </script>
 
 <style scoped>
+  .financial-info-main-title {
+    text-align: center;
+    text-decoration: underline;
+    text-underline-offset: 1rem;
+  }
   input {
     background-color: #eee;
     border: none;
