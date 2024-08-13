@@ -1,6 +1,9 @@
 <template>
   <div class="container">
-    <h1 class=" main-green text-center mb-5">Financial Information</h1>
+    <div class="d-flex justify-content-between align-items-center mt-3 mb-5">
+      <h1 class=" main-green text-center">Financial Information</h1>
+      <drop-down-menu />
+    </div>
     <h2 class="financial-info-main-title">New account</h2>
     <form id="app"
           @submit.prevent="handleSubmit"
@@ -35,21 +38,32 @@
   </div>
   <div>
     <h2 class="financial-info-main-title">All Accounts</h2>
+    <div class="container">
+      <div class="row">
+        <div class="col-6 col-lg-4" v-for="account in accounts" :key="account.id">
+          <financial-account :account="account" />
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
   //import router from "@/router";
-  import {supabase} from "../../supabase.js";
+  import { supabase } from "../../supabase.js";
+  import FinancialAccount from "@/components/financialAccount.vue";
+  import DropDownMenu from "@/components/dropDownMenu.vue";
 
   export default {
     name: 'FinancialInfo',
+    components: { DropDownMenu, FinancialAccount },
     data() {
       return {
         accountName: '',
         initialAmount: '',
         accountRate: '',
         monthlySavings: '',
+        accounts: [],
       }
     },
     computed: {
@@ -123,6 +137,7 @@
           if (error) {
             console.error('Error fetching data:', error);
           } else {
+            this.accounts = data;
             console.log(data);
           }
         } catch (error) {

@@ -1,13 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from "@/views/HomePage.vue";
 import FinancialInfo from "@/views/FinancialInfo.vue";
-import Forecasts from "@/views/ProfitForecasts.vue";
+import ProfitForecasts from "@/views/ProfitForecasts.vue";
+import HomePage from "@/views/HomePage.vue";
 
 const routes = [
     {
         path: '/',
-        name: 'home',
-        component: Home,
+        name: 'HomePage',
+        component: HomePage,
     },
     {
         path: '/financialInfo',
@@ -16,8 +16,8 @@ const routes = [
     },
     {
         path: '/forecasts',
-        name: 'Forecasts',
-        component: Forecasts
+        name: 'ProfitForecasts',
+        component: ProfitForecasts
     }
 ];
 

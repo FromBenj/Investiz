@@ -3181,6 +3181,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"bootstrap-icons-vue@npm:^1.11.3":
+  version: 1.11.3
+  resolution: "bootstrap-icons-vue@npm:1.11.3"
+  checksum: 10c0/67ab117f1d3ece0aa95316d537ac0c95aab26a218181fca6c214d900af71e1c52e94be3c12089d0999d4ec5452ec59e591add77a2133183f0e38a4bfeeab3924
+  languageName: node
+  linkType: hard
+
 "bootstrap-vue@npm:^2.23.1":
   version: 2.23.1
   resolution: "bootstrap-vue@npm:2.23.1"
@@ -5597,6 +5604,7 @@ __metadata:
     "@vue/cli-plugin-eslint": "npm:~5.0.0"
     "@vue/cli-service": "npm:~5.0.0"
     bootstrap: "npm:^5.3.3"
+    bootstrap-icons-vue: "npm:^1.11.3"
     bootstrap-vue: "npm:^2.23.1"
     core-js: "npm:^3.8.3"
     eslint: "npm:^7.32.0"
