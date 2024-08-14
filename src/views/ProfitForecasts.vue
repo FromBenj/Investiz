@@ -4,14 +4,16 @@
       <h1 class="main-green text-center">Profit Forecasts</h1>
       <drop-down-menu />
     </div>
+    <overall-chart />
   </div>
 </template>
 
 <script>
   import DropDownMenu from "@/components/dropDownMenu.vue";
+  import OverallChart from "@/components/OverallChart.vue";
 
   export default {
     name: 'ProfitForecasts',
-    components: {DropDownMenu},
+    components: {DropDownMenu, OverallChart},
   }
 </script>

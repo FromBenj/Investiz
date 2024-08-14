@@ -14,10 +14,12 @@
     "bootstrap": "^5.3.3",
     "bootstrap-icons-vue": "^1.11.3",
     "bootstrap-vue": "^2.23.1",
+    "chart.js": "^4.4.3",
     "core-js": "^3.8.3",
     "nodemon": "^3.1.4",
     "supabase": "1.187.10",
     "vue": "^3.4.37",
+    "vue-chartjs": "^5.3.1",
     "vue-router": "^4.4.3"
   },
   "devDependencies": {
