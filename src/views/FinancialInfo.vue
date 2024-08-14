@@ -2,7 +2,7 @@
   <div class="container">
     <div class="d-flex justify-content-between align-items-center mt-3 mb-5">
       <h1 class=" main-green text-center">Financial Information</h1>
-      <drop-down-menu/>
+      <drop-down-menu />
     </div>
     <h2 class="financial-info-main-title">New account</h2>
     <form id="app"

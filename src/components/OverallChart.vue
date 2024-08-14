@@ -1,5 +1,6 @@
 <template>
   <Bar
+      v-if="loaded"
       id="overall-chart"
       :data="chartData"
       :options="chartOptions"
@@ -19,6 +20,7 @@ export default {
   components: {Bar},
   data() {
     return {
+      loaded: false,
       chartData: {
         labels: [
           '1 year',
@@ -34,14 +36,34 @@ export default {
           '11 years',
           '12 years',
         ],
-        datasets: [{
-          data: [],
-          backgroundColor: '#118570',
-          label: 'Profits per Year'
-        }],
+        datasets: [
+          {
+            data: [],
+            backgroundColor: '#003a57',
+            label: 'Initial capital',
+          },
+          {
+            data: [],
+            backgroundColor: '#118570',
+            label: 'Profits per Year',
+          }],
       },
       chartOptions: {
-        responsive: true
+        animationEnabled: true,
+        responsive: true,
+        scales: {
+          y: {
+            stacked: true,
+            ticks: {
+              callback: function (value) {
+                return value + ' €';
+              }
+            }
+          },
+          x: {
+            stacked: true
+          }
+        }
       }
     }
   },
@@ -58,10 +80,25 @@ export default {
         }
         allProfits.push(allProfitsPerYear);
       }
-      this.chartData.datasets[0].data = allProfits;
+      this.chartData.datasets[1].data = allProfits;
+      this.loaded = true;
+    },
+    async getInitialCapital() {
+      const accounts = await supabaseApi.getAllAccounts();
+      let initialCapital = 0;
+      let initialCapitalData = [];
+      for (let i = 0; i < accounts.length; i++) {
+        initialCapital += accounts[i].amount;
+      }
+      for (let i = 0; i < 12; i++) {
+        initialCapitalData.push(initialCapital);
+      }
+
+      this.chartData.datasets[0].data = initialCapitalData;
     }
   },
   created() {
+    this.getInitialCapital()
     this.getAllProfits();
   }
 }
