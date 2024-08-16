@@ -9,11 +9,13 @@
 
 <script>
 import {Bar} from 'vue-chartjs'
-import {Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale} from 'chart.js'
-import profitByAccount from "@/utils/profit-by-account.js";
+import { Chart, registerables } from 'chart.js'
+import profits from "@/utils/profits.js";
 import supabaseApi from "@/services/supabase-api";
+import initialAmount from "@/utils/initial-amount.js";
+import savings from "@/utils/savings.js";
 
-ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
+Chart.register(...registerables);
 
 export default {
   name: 'BarChart',
@@ -33,8 +35,6 @@ export default {
           '8 years',
           '9 years',
           '10 years',
-          '11 years',
-          '12 years',
         ],
         datasets: [
           {
@@ -45,6 +45,11 @@ export default {
           {
             data: [],
             backgroundColor: '#118570',
+            label: 'Savings',
+          },
+          {
+            data: [],
+            backgroundColor: '#00d1b2',
             label: 'Profits per Year',
           }],
       },
@@ -68,37 +73,39 @@ export default {
     }
   },
   methods: {
-    async getAllProfits() {
-      const allAccounts = await supabaseApi.getAllAccounts();
-      let allProfits = [];
-      for (let i = 0; i < 12; i++) {
-        let allProfitsPerYear = 0;
-        for (let j = 0; j < allAccounts.length; j++) {
-          let account = allAccounts[j];
-          let profit = profitByAccount.getProfits(account, i + 1);
-          allProfitsPerYear += profit;
-        }
-        allProfits.push(allProfitsPerYear);
-      }
-      this.chartData.datasets[1].data = allProfits;
-      this.loaded = true;
-    },
     async getInitialCapital() {
       const accounts = await supabaseApi.getAllAccounts();
-      let initialCapital = 0;
+      const initialCapital = initialAmount.getInitialAmount(accounts);
       let initialCapitalData = [];
-      for (let i = 0; i < accounts.length; i++) {
-        initialCapital += accounts[i].amount;
-      }
-      for (let i = 0; i < 12; i++) {
+      for (let i = 0; i < 10; i++) {
         initialCapitalData.push(initialCapital);
       }
 
       this.chartData.datasets[0].data = initialCapitalData;
+    },
+    async getAllSavings() {
+      const accounts = await supabaseApi.getAllAccounts();
+      this.chartData.datasets[1].data = savings.getSavings(accounts, 10);
+    },
+    async getAllProfits() {
+      const allAccounts = await supabaseApi.getAllAccounts();
+      let allProfits = [];
+      for (let i = 0; i < 10; i++) {
+        let allProfitsPerYear = 0;
+        for (let j = 0; j < allAccounts.length; j++) {
+          let account = allAccounts[j];
+          let profit = profits.getProfits(account, i + 1);
+          allProfitsPerYear += profit;
+        }
+        allProfits.push(allProfitsPerYear);
+      }
+      this.chartData.datasets[2].data = allProfits;
+      this.loaded = true;
     }
   },
-  created() {
-    this.getInitialCapital()
+  mounted() {
+    this.getInitialCapital();
+    this.getAllSavings();
     this.getAllProfits();
   }
 }

@@ -1,9 +1,6 @@
 <template>
   <div class="container">
-    <div class="d-flex justify-content-between align-items-center mt-3 mb-5">
-      <h1 class=" main-green text-center">Financial Information</h1>
-      <drop-down-menu />
-    </div>
+    <main-nav title="Financial Information"/>
     <h2 class="financial-info-main-title">New account</h2>
     <form id="app"
           class="mt-4 d-flex flex-column align-items-center "
@@ -55,12 +52,15 @@
 //import router from "@/router";
 import {supabase} from "../../supabase.js";
 import FinancialAccount from "@/components/financialAccount.vue";
-import DropDownMenu from "@/components/dropDownMenu.vue";
 import supabaseApi from "@/services/supabase-api";
+import MainNav from "@/components/mainNav.vue";
 
 export default {
   name: 'FinancialInfo',
-  components: {DropDownMenu, FinancialAccount},
+  components: {
+    MainNav,
+    FinancialAccount
+  },
   data() {
     return {
       accountName: '',
@@ -145,9 +145,9 @@ export default {
       event.preventDefault();
     }
   },
-    async mounted() {
-      await this.allAccounts();
-    }
+  async mounted() {
+    await this.allAccounts();
+  }
 }
 </script>
 

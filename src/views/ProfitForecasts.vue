@@ -1,22 +1,19 @@
 <template>
   <div class="container">
-    <div class="d-flex justify-content-between align-items-center mt-3 mb-5">
-      <h1 class="main-green text-center">Profit Forecasts</h1>
-      <drop-down-menu />
-    </div>
+    <main-nav title="Profit forecasts" />
     <h2 class="overall-profits-title mb-5">Overall profits</h2>
     <overall-chart />
   </div>
 </template>
 
+<script setup>
+import OverallChart from "@/components/OverallChart.vue";
+import MainNav from "@/components/mainNav.vue";
+</script>
 <script>
-  import DropDownMenu from "@/components/dropDownMenu.vue";
-  import OverallChart from "@/components/OverallChart.vue";
-
-  export default {
-    name: 'ProfitForecasts',
-    components: {DropDownMenu, OverallChart},
-  }
+export default {
+  name: 'ProfitForecasts',
+}
 </script>
 
 <style scoped>

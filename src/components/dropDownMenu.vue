@@ -1,7 +1,7 @@
 <template>
   <div class="position-relative">
     <div id="drop-menu-icon-container" @click="menuDisplay">
-      <BIconThreeDots id="drop-menu-icon"/>
+      <BIconThreeDots id="drop-menu-icon"></BIconThreeDots>
     </div>
     <div id="dropdown-content">
       <router-link :to="HomePage">Home</router-link>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <mainNav :nav-items= "navItems" />
+    <homeNav :nav-items= "navItems" />
     <div id="animation-container" class="d-flex justify-content-center align-items-center h100">
       <svg id="investiz-home-animation" width="478" height="73" viewBox="0 0 478 73" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M476.591 60.0312V59.5312H476.091H442.422L475.8 10.8609L475.888 10.7331V10.5781V2.75V2.25H475.388H471.059H470.559H465.825H465.563H424.106H423.606V2.75V13.7656V14.2656H424.106H457.225L423.649 62.6524L423.559 62.781V62.9375V71V71.5H424.059H427.216H427.716H433.95H434.213H476.091H476.591V71V60.0312Z" stroke="#003A57"/>
@@ -17,12 +17,12 @@
 </template>
 
 <script>
-  import MainNav from "@/components/mainNav.vue";
+  import homeNav from "@/components/homeNav.vue";
 
   export default {
     name: 'HomePage',
     components: {
-      MainNav,
+      homeNav,
     },
     data() {
       return {

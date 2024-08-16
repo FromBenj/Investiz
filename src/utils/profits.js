@@ -1,8 +1,8 @@
-function getProfits(account, years) {
+function getProfits(accounts, years) {
     let profitPerYear = 0;
-    if (typeof account !== 'undefined' && account !== null) {
-        let capital = account.amount;
-        let rate = account.rate;
+    if (typeof accounts !== 'undefined' && accounts !== null) {
+        let capital = accounts.amount;
+        let rate = accounts.rate;
         if (capital !== 'null' && rate !== 'null') {
             for (let i = 0; i < years; i++) {
                 profitPerYear += (capital * rate) / 100;
