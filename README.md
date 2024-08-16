@@ -6,10 +6,15 @@
 yarn install
 ```
 
+### Create a ```.env.local``` file at the root of the project to add your secret global variables.
+#### _You can check the Global_Variables file for more information._
+
 ### Compiles and hot-reloads for development
 ```
 yarn serve
 ```
+___
+___
 
 ### Compiles and minifies for production
 ```
